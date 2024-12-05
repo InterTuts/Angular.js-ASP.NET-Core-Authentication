@@ -26,7 +26,7 @@ import { TokensService } from './tokens.service';
 
 // Logic
 export class UserService {
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser = this.currentUserSubject
     .asObservable()
     .pipe(distinctUntilChanged());
@@ -107,7 +107,7 @@ export class UserService {
         environment.apiUrl + `api/v1.0/auth/signin`,
         {
           email: credentials.email,
-          password: credentials.password,
+          password: credentials.password
         }
       )
       .pipe(tap(({ user }) => this.saveUser(user)));

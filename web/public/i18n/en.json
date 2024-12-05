@@ -29,5 +29,8 @@
   "reset_code_not_valid": "The reset code is not valid.",
   "repeat_password_wrong": "Password and repeat password do not match.",
   "sign_out": "Sign Out",
-  "your_email": "Your email"
+  "your_email": "Your email",
+  "redirecting": "Redirecting ...",
+  "set_password": "Set Password",
+  "authorization_code_not_valid": "The authorization code is not valid."
 }

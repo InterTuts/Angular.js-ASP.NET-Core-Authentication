@@ -1,6 +1,6 @@
 // System Utils
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
@@ -43,12 +43,12 @@ import { UserService } from '../../shared/services/user.service';
 })
 
 // Logic
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
   // Site Name
   siteName = environment.siteName;
 
   // Sign up form
-  signUpForm: FormGroup;
+  signUpForm: FormGroup = new FormGroup({});
 
   // Errors messages
   errors = {
@@ -74,13 +74,16 @@ export class SignUpComponent {
     private translateService: TranslateService,
     private router: Router,
     private userService: UserService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+
     // Set Page Title
     this.translateService.get('sign_up').subscribe((pageTitle: string) => {
       this.title.setTitle(pageTitle);
     });
 
-    // Rules
+    // Initialize FormGroup
     this.signUpForm = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
       password: [
@@ -130,7 +133,6 @@ export class SignUpComponent {
       observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (data: unknown) => {
           const received = data as { success: boolean; message: string };
-          console.log(received);
           if (received.success) {
             this.successMessage = received.message;
             setTimeout(() => {

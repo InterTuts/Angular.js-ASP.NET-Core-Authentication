@@ -52,7 +52,7 @@
         <value>The account was not created successfully.</value>
     </data>    
     <data name="AccountNotFound" xml:space="preserve">
-        <value>The member was not found.</value>
+        <value>The user was not found.</value>
     </data>
     <data name="SuccessSignIn" xml:space="preserve">
         <value>You have successfully signed in.</value>
@@ -86,5 +86,35 @@
     </data>
     <data name="CodeMissingOrWrong" xml:space="preserve">
         <value>The reset code is not valid.</value>
-    </data>                                        
+    </data> 
+    <data name="SocialFound" xml:space="preserve">
+        <value>The Google account is already in use.</value>
+    </data> 
+    <data name="SocialFound" xml:space="preserve">
+        <value>The Google account is already in use.</value>
+    </data>
+    <data name="AuthorizationCodeNotValid" xml:space="preserve">
+        <value>The authorization code is not valid.</value>
+    </data>  
+    <data name="AnUnknownError" xml:space="preserve">
+        <value>An unknown error occurred.</value>
+    </data>
+    <data name="AccessTokenNotFound" xml:space="preserve">
+        <value>Access token not found.</value>
+    </data>
+    <data name="FailedRetrieveUserInfo" xml:space="preserve">
+        <value>Failed to retrieve user info.</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>User info not found.</value>
+    </data>  
+    <data name="AccessCodeNotGenerated" xml:space="preserve">
+        <value>The access code wasn't generated successfully.</value>
+    </data>  
+    <data name="RegistrationRequired" xml:space="preserve">
+        <value>Registration is required.</value>
+    </data>      
+    <data name="SocialIdNotValid" xml:space="preserve">
+        <value>Social ID is not valid.</value>
+    </data>                                                      
 </root>

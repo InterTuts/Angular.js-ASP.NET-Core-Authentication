@@ -50,48 +50,6 @@
 
   }
 
-  .auth-form-alerts {
-    .auth-form-alert-success,
-    .auth-form-alert-error {
-      display: flex;
-      margin-top: 15px;
-      line-height: 24px;
-      font-family: fonts.$font-7;
-      font-size: 14px;
-      font-weight: 400;
-      transform-origin: top;
-      animation: top-to-bottom-animation 0.3s linear forwards;
-
-      .auth-form-alert-success-icon,
-      .auth-form-alert-error-icon {
-        margin: 13px 5px 13px 13px;
-        width: 24px;
-      }
-    }
-
-    .auth-form-alert-success {
-      background-color: rgba($color: colors.$color-blue, $alpha: 0.1);
-      color: colors.$color-blue;
-
-      .auth-form-alert-success-icon {
-        color: colors.$color-blue;
-      }
-    }
-
-    .auth-form-alert-error {
-      background-color: rgba($color: colors.$color-red, $alpha: 0.1);
-      color: colors.$color-red;
-
-      .auth-form-alert-error-icon {
-        color: colors.$color-red;
-      }
-    }
-
-    .auth-form-alert-error-static {
-      animation: none;
-    }
-  }
-
   .auth-form-actions {
     margin: 11px 0 0;
     width: 100%;
@@ -119,6 +77,48 @@
 
   }
 
+}
+
+.auth-form-alerts {
+  .auth-form-alert-success,
+  .auth-form-alert-error {
+    display: flex;
+    margin-top: 15px;
+    line-height: 24px;
+    font-family: fonts.$font-7;
+    font-size: 14px;
+    font-weight: 400;
+    transform-origin: top;
+    animation: top-to-bottom-animation 0.3s linear forwards;
+
+    .auth-form-alert-success-icon,
+    .auth-form-alert-error-icon {
+      margin: 13px 5px 13px 13px;
+      width: 24px;
+    }
+  }
+
+  .auth-form-alert-success {
+    background-color: rgba($color: colors.$color-blue, $alpha: 0.1);
+    color: colors.$color-blue;
+
+    .auth-form-alert-success-icon {
+      color: colors.$color-blue;
+    }
+  }
+
+  .auth-form-alert-error {
+    background-color: rgba($color: colors.$color-red, $alpha: 0.1);
+    color: colors.$color-red;
+
+    .auth-form-alert-error-icon {
+      color: colors.$color-red;
+    }
+  }
+
+  .auth-form-alert-error-static {
+    animation: none;
+  }
 }
 
 // CREATE THE ROTATE ANIMATION KEYFRAME

@@ -44,4 +44,12 @@ public interface IUsersRepository
     /// <param name="resetDto">User data</param>
     /// <returns>User with email if exists</returns>
     Task<ResponseDto<UserDto>> GetUserEmailAsync(EmailDto resetDto);
+
+    /// <summary>
+    /// Request user by social id
+    /// </summary>
+    /// <param name="userDto">User data</param>
+    /// <returns>User with email if exists</returns>
+    Task<ResponseDto<UserDto>> UserBySocialIdAsync(UserDto userDto);
+
 }

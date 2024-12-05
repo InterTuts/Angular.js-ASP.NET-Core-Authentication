@@ -1,6 +1,6 @@
 // System Utils
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
@@ -44,11 +44,11 @@ import { UserLogin } from '../../shared/models/user.model';
 })
 
 // Logic
-export class SigninComponent {
+export class SigninComponent implements OnInit {
   // Site Name
   siteName = environment.siteName;
   // Sign in form
-  signInForm: FormGroup;
+  signInForm: FormGroup = new FormGroup({});
 
   // Errors messages
   errors = {
@@ -74,7 +74,10 @@ export class SigninComponent {
     private translateService: TranslateService,
     private router: Router,
     private userService: UserService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+
     // Set Page Title
     this.translateService.get('sign_in').subscribe((pageTitle: string) => {
       this.title.setTitle(pageTitle);

@@ -1,5 +1,5 @@
 // System Utils
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
@@ -33,7 +33,7 @@ import { UserService } from '../../shared/services/user.service';
 })
 
 // Logic
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   // SideNav mark
   showSideNav = false;
@@ -46,7 +46,10 @@ export class DashboardComponent {
     private title: Title,
     private translateService: TranslateService,
     private userService: UserService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+
     // Set Page Title
     this.translateService.get('dashboard').subscribe((pageTitle: string) => {
       this.title.setTitle(pageTitle);
@@ -56,6 +59,7 @@ export class DashboardComponent {
     this.userService.currentUser.subscribe((user) => {
       this.currentUser = user;
     });
+
   }
 
   logOut() {

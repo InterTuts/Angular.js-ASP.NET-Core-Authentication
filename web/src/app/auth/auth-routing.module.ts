@@ -9,6 +9,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { ResetComponent } from './reset/reset.component';
 import { NewPasswordComponent } from './new-password/new-password.component';
 import { SigninComponent } from './signin/signin.component';
+import { GoogleConnectComponent } from './google-connect/google-connect.component';
+import { GoogleCallbackComponent } from './google-callback/google-callback.component';
 
 // Supported Routes
 const routes: Routes = [
@@ -25,6 +27,16 @@ const routes: Routes = [
   {
     path: 'new-password',
     component: NewPasswordComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'google-connect',
+    component: GoogleConnectComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'google-callback',
+    component: GoogleCallbackComponent,
     canActivate: [AuthGuard]
   },
   {

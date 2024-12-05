@@ -1,6 +1,6 @@
 // System Utils
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -42,11 +42,11 @@ import { UserService } from '../../shared/services/user.service';
 })
 
 // Logic
-export class NewPasswordComponent {
+export class NewPasswordComponent implements OnInit {
   // Site Name
   siteName = environment.siteName;
   // Reset form
-  newPasswordForm: FormGroup;
+  newPasswordForm: FormGroup = new FormGroup({});
 
   // Errors messages
   errors = {
@@ -74,7 +74,10 @@ export class NewPasswordComponent {
     private router: Router,
     private sanitizer: DomSanitizer,
     private userService: UserService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+
     // Set Page Title
     this.translateService.get('new_password').subscribe((pageTitle: string) => {
       this.title.setTitle(pageTitle);
@@ -128,6 +131,8 @@ export class NewPasswordComponent {
       if ( password?.value !== repeatPassword?.value ) {
         // Set error message
         this.errorMessage = this.translateService.instant('repeat_password_wrong');
+        // Hide the animation
+        this.isSubmitting = false;
         return;
       }
 
@@ -154,7 +159,6 @@ export class NewPasswordComponent {
         observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: (data: unknown) => {
             const received = data as { success: boolean; message: string };
-            console.log(received);
             if (received.success) {
               this.successMessage = received.message;
               setTimeout(() => {

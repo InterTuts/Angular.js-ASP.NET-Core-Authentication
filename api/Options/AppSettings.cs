@@ -42,6 +42,11 @@ public class AppSettings
     public required SmtpSettingsFormat Smtp { get; set; }
 
     /// <summary>
+    /// Google Settings Field
+    /// </summary>
+    public required GoogleSettingsFormat Google { get; set; }
+
+    /// <summary>
     /// Jwt Settings Format
     /// </summary>
     public class JwtSettingsFormat
@@ -141,6 +146,24 @@ public class AppSettings
         /// Smtp Password
         /// </summary>
         public required string SmtpPassword { get; set; }
+
+    }
+
+    /// <summary>
+    /// Google Settings Format
+    /// </summary>
+    public class GoogleSettingsFormat
+    {
+
+        /// <summary>
+        /// Client ID
+        /// </summary>
+        public required string ClientId { get; set; }
+        
+        /// <summary>
+        /// Client Secret
+        /// </summary>
+        public required string ClientSecret { get; set; }
 
     }
 

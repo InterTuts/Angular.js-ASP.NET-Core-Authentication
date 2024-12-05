@@ -50,8 +50,7 @@ public class UsersRepository(IMemoryCache _memoryCache, PostgresSql _context, IL
             UserEntity userEntity = new();
 
             // Init the User entity
-            UserEntity entity = new()
-            {                 
+            UserEntity entity = new() {                 
 
                 // Set the user's email
                 Email = registrationDto.Email!.Trim(),
@@ -63,6 +62,11 @@ public class UsersRepository(IMemoryCache _memoryCache, PostgresSql _context, IL
                 Created = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds()
 
             };
+
+            // Verify if social id exists
+            if ( registrationDto.SocialId != null ) {
+                entity.SocialId = registrationDto.SocialId;
+            }
 
             // Add the entity to the database
             _context.Users.Add(entity);
@@ -358,6 +362,59 @@ public class UsersRepository(IMemoryCache _memoryCache, PostgresSql _context, IL
                 Result = null,
                 Message = e.Message
             };                   
+
+        }
+
+    }
+
+    /// <summary>
+    /// Request user by social id
+    /// </summary>
+    /// <param name="userDto">User data</param>
+    /// <returns>User with email if exists</returns>
+    public async Task<ResponseDto<UserDto>> UserBySocialIdAsync(UserDto userDto) {
+
+        try {
+
+            // Get email from the database
+            UserDto? user = await _context.Users
+            .Select(m => new UserDto {
+                UserId = m.UserId,
+                Email = m.Email,
+                Password = m.Password,
+                Created = m.Created,
+                SocialId = m.SocialId
+            })
+            .Where(m => m.SocialId == userDto.SocialId)
+            .FirstOrDefaultAsync();
+
+            // Check if user exists
+            if ( user != null ) {
+
+                // Return response
+                return new ResponseDto<UserDto> {
+                    Result = user,
+                    Message = null
+                };
+
+            } else {
+
+                // Return response
+                return new ResponseDto<UserDto> {
+                    Result = null,
+                    Message = Words.Get("AccountNotFound")
+                };
+
+            }
+
+        } catch (InvalidOperationException e) {
+
+            // Return response
+            return new ResponseDto<UserDto>
+            {
+                Result = null,
+                Message = e.Message
+            };
 
         }
 

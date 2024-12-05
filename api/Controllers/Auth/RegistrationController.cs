@@ -34,8 +34,7 @@ public class RegistrationController(IUsersRepository usersRepository) : Controll
         ResponseDto<UserDto> createUser = await usersRepository.RegisterUserAsync(registrationDto);
 
         // Verify if the account was created
-        if (createUser.Result != null)
-        {
+        if (createUser.Result != null) {
 
             // Create a success response
             var response = new
@@ -46,9 +45,8 @@ public class RegistrationController(IUsersRepository usersRepository) : Controll
 
             // Return a json
             return new JsonResult(response);
-        }
-        else
-        {
+        } else {
+
             // Create a error response
             var response = new
             {
@@ -58,6 +56,7 @@ public class RegistrationController(IUsersRepository usersRepository) : Controll
 
             // Return a json
             return new JsonResult(response);
+
         }
 
     }

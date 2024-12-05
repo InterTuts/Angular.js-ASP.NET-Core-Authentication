@@ -18,3 +18,14 @@ export interface UserLogin {
   success: boolean;
   user?: User;
 }
+
+export interface UserSocial {
+  success: boolean;
+  message: string;
+  content?: {
+    userId: number,
+    email: string,
+    token: string,
+    socialId: string
+  }
+}

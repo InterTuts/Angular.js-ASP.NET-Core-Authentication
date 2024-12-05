@@ -1,6 +1,6 @@
 // System Utils
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
@@ -42,11 +42,11 @@ import { UserService } from '../../shared/services/user.service';
 })
 
 // Logic
-export class ResetComponent {
+export class ResetComponent implements OnInit {
   // Site Name
   siteName = environment.siteName;
   // Reset form
-  resetForm: FormGroup;
+  resetForm: FormGroup = new FormGroup({});
 
   // Errors messages
   errors = {
@@ -70,7 +70,10 @@ export class ResetComponent {
     private fb: FormBuilder,
     private translateService: TranslateService,
     private userService: UserService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+
     // Set Page Title
     this.translateService.get('reset_password').subscribe((pageTitle: string) => {
       this.title.setTitle(pageTitle);

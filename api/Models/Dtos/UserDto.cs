@@ -27,6 +27,12 @@ public class UserDto
     public string? Password { get; set; }
 
     /// <summary>
+    /// User's social id field
+    /// </summary>
+    [ValidCode]
+    public string? SocialId { get; set; }
+
+    /// <summary>
     /// Joined time
     /// </summary>
     public long Created { get; set; }

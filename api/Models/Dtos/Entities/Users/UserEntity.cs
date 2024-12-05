@@ -31,6 +31,13 @@ public class UserEntity {
     public string? Password { get; set; }
 
     /// <summary>
+    /// User's social id field
+    /// </summary>
+    [DataType(DataType.Text)]
+    [MaxLength(250)]
+    public string? SocialId { get; set; }
+
+    /// <summary>
     /// User's joined time field
     /// </summary>
     [Required]

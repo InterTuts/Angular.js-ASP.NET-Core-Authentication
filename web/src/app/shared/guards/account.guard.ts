@@ -1,6 +1,6 @@
 // System Utils
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 
 // Installed Utils
 import { Observable, of, switchMap } from 'rxjs';
