@@ -62,6 +62,29 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  getTime(): string {
+
+    // Date object
+    const date = new Date();
+
+    // Array of day names
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    // Get the day name
+    const dayName = days[date.getDay()];
+
+    // Array of month names
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    // Get the month name
+    const monthName = months[date.getMonth()];
+
+    return dayName + ', ' + monthName + ' ' + date.getMonth() + ', ' + date.getFullYear();
+  }
+
   logOut() {
     this.router.navigate(['/auth/logout']);
   }
