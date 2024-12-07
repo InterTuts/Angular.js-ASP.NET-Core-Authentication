@@ -1,8 +1,11 @@
 // System Utils
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Text;
 
 // App Namespaces
 using api.Options;
@@ -39,6 +42,20 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env) {
 
         // Register all repositories
         services.RegisterRepositories(Assembly.GetExecutingAssembly());
+
+        // Configure the session state
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+
+            options.TokenValidationParameters = new TokenValidationParameters {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = Configuration.GetValue<string>("AppSettings:JwtSettings:Issuer"),
+                ValidAudience = Configuration.GetValue<string>("AppSettings:JwtSettings:Audience"),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("AppSettings:JwtSettings:Key") ?? string.Empty))
+            };
+            
+        });
 
         // Add services for controllers
         services.AddControllers(options => {
@@ -102,8 +119,18 @@ public class Startup(IConfiguration configuration, IWebHostEnvironment env) {
         // Use the available routes
         app.UseRouting();
 
-        // Use the Main Cors Policy
-        app.UseCors("MainPolicy");
+        // Set the created Cors policy
+        app.UseCors(options => {
+            options.WithOrigins(Configuration.GetValue<string>("AppSettings:SiteUrl") ?? string.Empty)
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+
+        // Enables authentication capabilities
+        app.UseAuthentication();        
+
+        // Enables the autorization middleware for requests validation
+        app.UseAuthorization();
 
         // List all endpoints and map the controllers
         app.UseEndpoints(

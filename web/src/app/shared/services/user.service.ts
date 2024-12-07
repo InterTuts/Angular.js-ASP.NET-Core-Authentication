@@ -101,7 +101,7 @@ export class UserService {
   login(credentials: {
     email: string;
     password: string;
-  }): Observable<{ success: boolean; message: string; user?: User }> {
+  }): Observable<{ success: boolean; message: string; content?: User }> {
     return this.httpClient
       .post<{ success: boolean; message: string }>(
         environment.apiUrl + `api/v1.0/auth/signin`,
@@ -110,7 +110,7 @@ export class UserService {
           password: credentials.password
         }
       )
-      .pipe(tap(({ user }) => this.saveUser(user)));
+      .pipe(tap(({ content }) => this.saveUser(content)));
   }
 
   reset(credentials: {

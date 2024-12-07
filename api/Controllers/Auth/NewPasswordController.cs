@@ -1,18 +1,11 @@
 // System Utils
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Net.Mail; 
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 // App Utils
 using api.Models.Dtos;
 using api.Models.Dtos.Auth;
-using api.Options;
 using api.Services.Interfaces;
 using api.Utilities;
 
@@ -136,7 +129,6 @@ public class NewPasswordController(IUsersRepository usersRepository) : Controlle
             }
 
         } catch (InvalidOperationException e) {
-
             Console.WriteLine(e.Message);
 
             // Create a error response

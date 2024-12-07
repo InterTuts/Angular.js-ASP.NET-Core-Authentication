@@ -1,13 +1,9 @@
 // System Utils
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 // App Utils
 using api.Models.Dtos;
 using api.Models.Dtos.Auth;
@@ -187,30 +183,14 @@ public class SocialController(IOptions<AppSettings> options, IUsersRepository us
             // Check if user exists
             if ( getUser.Result != null ) {
 
-                // Prepare and define the secret key
-                SymmetricSecurityKey securityKey = new (Encoding.UTF8.GetBytes(options.Value.JwtSettings.Key ?? string.Empty));
+                // Set user's ID
+                userDto.UserId = getUser.Result.UserId;
 
-                // Create aa signature with the key
-                SigningCredentials credentials = new (securityKey, SecurityAlgorithms.HmacSha256);
+                // Set user's email
+                userDto.Email = getUser.Result.Email;
 
-                // Create a new list with token data as claims
-                List<Claim> claims = [
-                    new("UserId", getUser.Result.UserId.ToString() ?? string.Empty, ClaimValueTypes.String),
-                    new(JwtRegisteredClaimNames.Sub, "username", ClaimValueTypes.String),
-                    new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString(), ClaimValueTypes.String)
-                ];
-
-                // Create the token
-                JwtSecurityToken token = new (
-                    issuer: options.Value.JwtSettings.Issuer,
-                    audience: options.Value.JwtSettings.Audience,
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddHours(720),
-                    signingCredentials: credentials
-                );
-
-                // Initialize the JwtSecurityTokenHandler class which validates, handles and creates access tokens
-                var tokenHandler = new JwtSecurityTokenHandler();
+                // Generate token
+                string token = Tokens.GenerateToken(options, userDto);
 
                 // Return a json with response
                 return new JsonResult(new {
@@ -219,7 +199,7 @@ public class SocialController(IOptions<AppSettings> options, IUsersRepository us
                     content = new {
                         userId = getUser.Result.UserId.ToString(),
                         email = getUser.Result.Email,
-                        token = tokenHandler.WriteToken(token)
+                        token
                     }
                 });
 
@@ -362,30 +342,8 @@ public class SocialController(IOptions<AppSettings> options, IUsersRepository us
                 });
             }
 
-            // Prepare and define the secret key
-            SymmetricSecurityKey securityKey = new (Encoding.UTF8.GetBytes(options.Value.JwtSettings.Key ?? string.Empty));
-
-            // Create aa signature with the key
-            SigningCredentials credentials = new (securityKey, SecurityAlgorithms.HmacSha256);
-
-            // Create a new list with token data as claims
-            List<Claim> claims = [
-                new("UserId", user.Result.UserId.ToString() ?? string.Empty, ClaimValueTypes.String),
-                new(JwtRegisteredClaimNames.Sub, "username", ClaimValueTypes.String),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString(), ClaimValueTypes.String)
-            ];
-
-            // Create the token
-            JwtSecurityToken token = new (
-                issuer: options.Value.JwtSettings.Issuer,
-                audience: options.Value.JwtSettings.Audience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(720),
-                signingCredentials: credentials
-            );
-
-            // Initialize the JwtSecurityTokenHandler class which validates, handles and creates access tokens
-            var tokenHandler = new JwtSecurityTokenHandler();
+            // Generate token
+            string token = Tokens.GenerateToken(options, user.Result);
 
             // Return a json with response
             return new JsonResult(new {
@@ -394,7 +352,7 @@ public class SocialController(IOptions<AppSettings> options, IUsersRepository us
                 content = new {
                     userId = user.Result.UserId.ToString(),
                     user.Result.Email,
-                    token = tokenHandler.WriteToken(token)
+                    token = token
                 }
             });
 

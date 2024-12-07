@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit {
     // Get the month name
     const monthName = months[date.getMonth()];
 
-    return dayName + ', ' + monthName + ' ' + date.getMonth() + ', ' + date.getFullYear();
+    return dayName + ', ' + monthName + ' ' + date.getDate() + ', ' + date.getFullYear();
   }
 
   logOut() {

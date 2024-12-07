@@ -12,7 +12,7 @@ namespace api.Controllers.Auth;
 /// Initializes a new instance of the <see cref="InfoController"/> class.
 /// </summary>
 [ApiController]
-[AllowAnonymous]
+[Authorize]
 [UserAccess]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/account/[controller]")]
