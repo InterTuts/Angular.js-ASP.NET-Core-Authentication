@@ -20,8 +20,8 @@ public class ValidCodeAttribute : ValidationAttribute {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext) {
 
         // Check if the value is null or empty
-        if (value == null || string.IsNullOrWhiteSpace(value.ToString())) {
-            return new ValidationResult(Words.Get("CodeMissingOrWrong"));
+        if (value == null) {
+            return ValidationResult.Success;
         }
 
         // Sanitize input code (e.g., remove leading/trailing spaces and disallowed characters)

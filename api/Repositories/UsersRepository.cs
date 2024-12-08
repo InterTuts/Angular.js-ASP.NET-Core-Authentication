@@ -1,7 +1,6 @@
 // System Utils
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using ExtensionsOptions = Microsoft.Extensions.Options;
 
 // App Namespaces
@@ -18,10 +17,9 @@ namespace api.Repositories;
 /// <summary>
 /// Users Repository pattern
 /// </summary>
-/// <param name="_memoryCache">Usery cache instance</param>
 /// <param name="_context">Database connection</param>
 /// <param name="logger">Logger instance</param>
-public class UsersRepository(IMemoryCache _memoryCache, PostgresSql _context, ILogger<UsersRepository> logger) : IUsersRepository
+public class UsersRepository(PostgresSql _context, ILogger<UsersRepository> logger) : IUsersRepository
 {
     /// <summary>
     /// Register a user
@@ -76,9 +74,6 @@ public class UsersRepository(IMemoryCache _memoryCache, PostgresSql _context, IL
 
             // Verify if the user was created
             if ( saveUser > 0 ) {
-
-                // Remove the caches for users group
-                new Cache(_memoryCache).Remove("users"); 
 
                 // Return response
                 return new ResponseDto<UserDto> {
@@ -254,33 +249,14 @@ public class UsersRepository(IMemoryCache _memoryCache, PostgresSql _context, IL
 
         try {
 
-            // Cache key for user
-            string cacheKey = "user_" + userId;
-
-            // Verify if the user is saved in the cache
-            if ( !_memoryCache.TryGetValue(cacheKey, out UserDto? user ) ) {
-
-                // Get the user by id
-                user = await _context.Users
-                .Select(m => new UserDto {
-                    UserId = m.UserId,
-                    Email = m.Email,
-                    Created = m.Created
-                })
-                .FirstAsync(u => u.UserId == userId); 
-
-                // Create the options for cache storing
-                MemoryCacheEntryOptions cacheOptions = new() {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1)
-                };
-
-                // Create the cache
-                _memoryCache.Set(cacheKey, user, cacheOptions);
-
-                // Save the cache key in the group
-                new Cache(_memoryCache).Save("users", cacheKey);
-
-            }
+            // Get the user by id
+            UserDto? user = await _context.Users
+            .Select(m => new UserDto {
+                UserId = m.UserId,
+                Email = m.Email,
+                Created = m.Created
+            })
+            .FirstAsync(u => u.UserId == userId);
 
             // Verify if user exists
             if ( user != null ) {

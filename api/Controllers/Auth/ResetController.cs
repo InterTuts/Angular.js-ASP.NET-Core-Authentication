@@ -72,7 +72,7 @@ public class ResetController(IOptions<AppSettings> options, IUsersRepository use
                 issuer: options.Value.JwtSettings.Issuer,
                 audience: options.Value.JwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(1),
+                expires: DateTime.UtcNow.AddMinutes(10),
                 signingCredentials: credentials
             );
 

@@ -71,8 +71,14 @@ export class GoogleConnectComponent implements OnInit {
         // Decode the expected response
         const received = data as { success: boolean; redirectUrl: string };
 
-        //Redirect to Google Login page
-        window.location.href = received.redirectUrl;
+        // Verify if window exists
+        if (typeof window !== "undefined") {
+
+          //Redirect to Google Login page
+          window.location.href = received.redirectUrl;
+
+        }
+        
       },
       error: (err) => {
         console.log(err);

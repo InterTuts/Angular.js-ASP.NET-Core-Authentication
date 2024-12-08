@@ -16,8 +16,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 // App Utils
 import { environment } from '../../environment';
-import { AuthLayoutComponent } from '../../shared/layouts/auth-layout/auth-layout.component';
 import { UserService } from '../../shared/services/user.service';
+import { UserLogin } from '../../shared/models/user.model';
+import { AuthLayoutComponent } from '../../shared/layouts/auth-layout/auth-layout.component';
 
 // Configuration
 @Component({
@@ -132,19 +133,22 @@ export class SignUpComponent implements OnInit {
       // Subscribe to the registration response
       observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (data: unknown) => {
-          const received = data as { success: boolean; message: string };
+          const received = data as UserLogin & { Email?: Array<string>;  Password?: Array<string>};
           if (received.success) {
             this.successMessage = received.message;
             setTimeout(() => {
               this.router.navigate(['/']);
             }, 2000);
+          } else if ( typeof received.Email === 'object' ) {
+            this.errorMessage = received.Email[0]
+          } else if ( typeof received.Password === 'object' ) {
+            this.errorMessage = received.Password[0]
           } else {
             this.errorMessage = received.message;
-            console.log(this.errorMessage);
           }
         },
         error: (err) => {
-          console.log(err);
+          console.error(err);
         },
         complete: () => {
           // Hide the animation
@@ -196,4 +200,5 @@ export class SignUpComponent implements OnInit {
     }
 
   }
+  
 }
